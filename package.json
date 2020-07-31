@@ -1,7 +1,7 @@
 {
-  "name": "@lunie/cosmos-ledger",
-  "version": "0.1.8",
-  "description": "provide simple Ledger tooling for the Cosmos Ledger App with user friendly errors",
+  "name": "@kava-labs/cosmos-ledger",
+  "version": "0.1.0-beta.0",
+  "description": "provide simple Ledger tooling for the Kava Ledger App with user friendly errors",
   "keywords": [
     "cosmos",
     "cosmos.network",
@@ -20,7 +20,7 @@
   "author": "Fabian Weber <fabian@tendermint.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/luniehq/cosmos-ledger.git"
+    "url": "https://github.com/Kava-Labs/cosmos-ledger.git"
   },
   "license": "MIT",
   "engines": {

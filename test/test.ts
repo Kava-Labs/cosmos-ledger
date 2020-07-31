@@ -58,15 +58,15 @@ describe(`Ledger`, () => {
           getVersion() {
             return {
               major: '1',
-              minor: '5',
-              patch: '5',
+              minor: '0',
+              patch: '0',
               test_mode: false,
               error_message: 'No errors'
             }
           }
           appInfo() {
             return {
-              appName: 'Cosmos',
+              appName: 'Kava',
               error_message: 'No errors'
             }
           }
@@ -151,8 +151,8 @@ describe(`Ledger`, () => {
           }
           getVersion() {
             return {
-              major: '1',
-              minor: '0',
+              major: '0',
+              minor: '9',
               patch: '0',
               test_mode: false,
               error_message: 'No errors'
@@ -165,7 +165,7 @@ describe(`Ledger`, () => {
       ledger.userAgent = 'chrome'
 
       await expect(ledger.connect()).rejects.toThrow(
-        'Outdated version: Please update Ledger Cosmos App to the latest version.'
+        'Outdated version: Please update Ledger Kava App to the latest version.'
       )
     })
 
@@ -196,7 +196,7 @@ describe(`Ledger`, () => {
         cosmosApp: {
           getVersion: () => ({
             major: '1',
-            minor: '5',
+            minor: '0',
             patch: '0',
             test_mode: false
           })
@@ -206,26 +206,7 @@ describe(`Ledger`, () => {
       const res = await ledger.getCosmosAppVersion.call(self)
       expect(self.connect).toHaveBeenCalled()
       expect(self.checkLedgerErrors).toHaveBeenCalled()
-      expect(res).toBe('1.5.0')
-    })
-
-    it('old version', async () => {
-      const self = {
-        connect: jest.fn(),
-        cosmosApp: {
-          getVersion: () => ({
-            major: '1',
-            minor: '1',
-            patch: '0',
-            test_mode: false,
-            error_message: 'No errors'
-          })
-        },
-        checkLedgerErrors: jest.fn()
-      }
-      expect(await ledger.getCosmosAppVersion.call(self)).toBe('1.1.0')
-      expect(self.connect).toHaveBeenCalled()
-      expect(self.checkLedgerErrors).toHaveBeenCalled()
+      expect(res).toBe('1.0.0')
     })
 
     it('test mode', async () => {
@@ -234,7 +215,7 @@ describe(`Ledger`, () => {
         cosmosApp: {
           getVersion: () => ({
             major: '1',
-            minor: '5',
+            minor: '0',
             patch: '0',
             test_mode: true,
             error_message: 'No errors'
@@ -254,7 +235,7 @@ describe(`Ledger`, () => {
         connect: jest.fn(),
         cosmosApp: {
           appInfo: () => ({
-            appName: 'Cosmos',
+            appName: 'Kava',
             error_message: 'No errors'
           })
         },
@@ -319,7 +300,7 @@ describe(`Ledger`, () => {
       const self = {
         checkLedgerErrors: jest.fn(),
         connect: jest.fn(),
-        getCosmosAppVersion: () => '1.5.5',
+        getCosmosAppVersion: () => '1.0.0',
         cosmosApp: {
           showAddressAndPubKey: jest.fn(() => ({
             error_message: 'No errors'
@@ -336,7 +317,7 @@ describe(`Ledger`, () => {
       const self = {
         checkLedgerErrors: jest.fn(),
         connect: jest.fn(),
-        getCosmosAppVersion: () => '1.1.0',
+        getCosmosAppVersion: () => '0.9.0',
         cosmosApp: {
           showAddressAndPubKey: jest.fn(() => ({
             error_message: 'No errors'
@@ -354,14 +335,14 @@ describe(`Ledger`, () => {
     const self = {
       checkLedgerErrors: jest.fn(),
       connect: jest.fn(),
-      getCosmosAppVersion: () => '1.1.0',
+      getCosmosAppVersion: () => '1.0.0',
       cosmosApp: {
         sign: jest.fn(() => ({
           signature: Buffer.from('1234'), // needs to be a DER signature, but the upstream library is mockeed here
           error_message: 'No errors'
         }))
       },
-      hdPath: [44, 118, 0, 0, 0]
+      hdPath: [44, 459, 0, 0, 0]
     }
     const res = await ledger.sign.call(self, 'message')
     expect(self.connect).toHaveBeenCalled()

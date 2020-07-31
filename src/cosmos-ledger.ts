@@ -6,8 +6,8 @@ import * as crypto from 'crypto'
 import * as Ripemd160 from 'ripemd160'
 import * as bech32 from 'bech32'
 
-const INTERACTION_TIMEOUT = 120 // seconds to wait for user action on Ledger, currently is always limited to 60
-const REQUIRED_COSMOS_APP_VERSION = '1.5.3'
+const INTERACTION_TIMEOUT = 300 // seconds to wait for user action on Ledger, currently is always limited to 60
+const REQUIRED_KAVA_APP_VERSION = '1.0.0'
 
 declare global {
   interface Window {
@@ -22,10 +22,10 @@ declare global {
 
 /*
 HD wallet derivation path (BIP44)
-DerivationPath{44, 118, account, 0, index}
+DerivationPath{44, 459, account, 0, index}
 */
-const HDPATH = [44, 118, 0, 0, 0]
-const BECH32PREFIX = `cosmos`
+const HDPATH = [44, 459, 0, 0, 0]
+const BECH32PREFIX = `kava`
 
 export default class Ledger {
   private readonly testModeAllowed: Boolean
@@ -62,8 +62,8 @@ export default class Ledger {
     // check if the version is supported
     const version = await this.getCosmosAppVersion()
 
-    if (!semver.gte(version, REQUIRED_COSMOS_APP_VERSION)) {
-      const msg = `Outdated version: Please update Ledger Cosmos App to the latest version.`
+    if (!semver.gte(version, REQUIRED_KAVA_APP_VERSION)) {
+      const msg = `Outdated version: Please update Ledger Kava App to the latest version.`
       throw new Error(msg)
     }
 
@@ -161,11 +161,11 @@ export default class Ledger {
     const appName = await this.getOpenApp()
 
     if (appName.toLowerCase() === `dashboard`) {
-      throw new Error(`Please open the Cosmos Ledger app on your Ledger device.`)
+      throw new Error(`Please open the Kava Ledger app on your Ledger device.`)
     }
-    if (appName.toLowerCase() !== `cosmos`) {
+    if (appName.toLowerCase() !== `kava`) {
       throw new Error(
-        `Please close ${appName} and open the Cosmos Ledger app on your Ledger device.`
+        `Please close ${appName} and open the Kava Ledger app on your Ledger device.`
       )
     }
   }
@@ -203,7 +203,7 @@ export default class Ledger {
     await this.connect()
     const cosmosAppVersion = await this.getCosmosAppVersion()
 
-    if (semver.lt(cosmosAppVersion, REQUIRED_COSMOS_APP_VERSION)) {
+    if (semver.lt(cosmosAppVersion, REQUIRED_KAVA_APP_VERSION)) {
       // we can't check the address on an old cosmos app
       return
     }
@@ -242,8 +242,8 @@ export default class Ledger {
     switch (error_message) {
       case `U2F: Timeout`:
         throw new Error(timeoutMessag)
-      case `Cosmos app does not seem to be open`:
-        throw new Error(`Cosmos app is not open`)
+      case `Kava app does not seem to be open`:
+        throw new Error(`Kava app is not open`)
       case `Command not allowed`:
         throw new Error(`Transaction rejected`)
       case `Transaction rejected`:
@@ -252,8 +252,8 @@ export default class Ledger {
         throw new Error(`Ledger's screensaver mode is on`)
       case `Instruction not supported`:
         throw new Error(
-          `Your Cosmos Ledger App is not up to date. ` +
-            `Please update to version ${REQUIRED_COSMOS_APP_VERSION}.`
+          `Your Kava Ledger App is not up to date. ` +
+            `Please update to version ${REQUIRED_KAVA_APP_VERSION}.`
         )
       case `No errors`:
         // do nothing
@@ -273,7 +273,7 @@ function versionString({ major, minor, patch }: { major: Number; minor: Number; 
 export const checkAppMode = (testModeAllowed: Boolean, testMode: Boolean) => {
   if (testMode && !testModeAllowed) {
     throw new Error(
-      `DANGER: The Cosmos Ledger app is in test mode and shouldn't be used on mainnet!`
+      `DANGER: The Kava Ledger app is in test mode and shouldn't be used on mainnet!`
     )
   }
 }
