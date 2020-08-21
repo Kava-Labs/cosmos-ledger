@@ -7,7 +7,7 @@ import * as Ripemd160 from 'ripemd160'
 import * as bech32 from 'bech32'
 
 const INTERACTION_TIMEOUT = 120 // seconds to wait for user action on Ledger, currently is always limited to 60
-const REQUIRED_COSMOS_APP_VERSION = '1.5.3'
+const REQUIRED_COSMOS_APP_VERSION = '1.0.0'
 
 declare global {
   interface Window {
@@ -22,10 +22,10 @@ declare global {
 
 /*
 HD wallet derivation path (BIP44)
-DerivationPath{44, 118, account, 0, index}
+DerivationPath{44, 459, account, 0, index}
 */
-const HDPATH = [44, 118, 0, 0, 0]
-const BECH32PREFIX = `cosmos`
+const HDPATH = [44, 459, 0, 0, 0]
+const BECH32PREFIX = `kava`
 
 export default class Ledger {
   private readonly testModeAllowed: Boolean
@@ -253,7 +253,7 @@ export default class Ledger {
       case `Instruction not supported`:
         throw new Error(
           `Your Cosmos Ledger App is not up to date. ` +
-            `Please update to version ${REQUIRED_COSMOS_APP_VERSION}.`
+          `Please update to version ${REQUIRED_COSMOS_APP_VERSION}.`
         )
       case `No errors`:
         // do nothing
